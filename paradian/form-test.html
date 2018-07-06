@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <label for="name">name</label>
+    <div class="test" name="name" style="display: inline-block">
+        <input type="file">
+    </div>
+</form>
+<script>
+    window.addEventListener("load", function(event) {
+        console.log("All resources finished loading!");
+    });
+    var testInput=document.getElementsByTagName("input");
+    console.log(testInput);
+
+    const fileReader=new FileReader();
+    console.log(fileReader);
+    fileReader.addEventListener('load',function (ev)
+    {
+        console.log('entry')
+
+    })
+    // testInput[0].addEventListener('change',e=>{
+    //     const [file] =e.target.file;
+    //     fileReader.readAsDataURL(file)
+    // })
+</script>
+</body>
+</html>

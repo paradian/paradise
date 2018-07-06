@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="file" id="file">
+<script>
+    var script = document.createElement("script");
+    script.addEventListener("load", function(event) {
+        console.log("Script finished loading and executing");
+    });
+    script.src = "http://example.com/example.js";
+    script.async = true;
+    document.getElementsByTagName("script")[0].parentNode.appendChild(script);
+    const fileInput=document.getElementById('file');
+    console.log(fileInput);
+    const  fileReader=new FileReader();
+    fileReader.addEventListener("load",function (event) {
+        console.log('entry');
+    })
+    fileInput.addEventListener('change',function (event) {
+        console.log('test');
+    })
+    window.addEventListener("load", function(event) {
+        console.log("All resources finished loading!");
+    });
+</script>
+</body>
+</html>
