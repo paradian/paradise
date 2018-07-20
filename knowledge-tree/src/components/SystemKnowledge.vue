@@ -1,13 +1,14 @@
 <template>
     <div class="main">
-        <h1>this is a system-knowledge page ,just for my test</h1>
+        <h3>this is a system-knowledge page ,just for my test</h3>
       <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
         <span class="fa fa-admin"></span>
       </div>
-<div class="test" v-for="item in data1">{{item.content}}</div>
-      <div class="hello" v-for="item in data">
-        {{item.content}}
-
+<!--<div class="test" v-for="item in data1">{{item.content}}</div>-->
+      <div class="hello" v-for="(item,index) in data" >
+        <p class="title">
+         <span class="fa fa-folder"></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="Editor=!Editor"></span>
+        </p>
       </div>
       <div class="first" @click="second=!second,third=false">第一级目录</div>
       <div class="second" v-show="second" @click="third=!third">第二级目录</div>
@@ -22,8 +23,9 @@ export default {
         searchValue:'',
         second:false,
         third:false,
+        Editor:false,
         data:[
-          {id:'1',pid:'0',content:'test0',children:[{id:11,text:'hello',children:[{id:'111',text:'world'}]}]},
+          {id:'1',pid:'0',content:'test0',children:[{id:11,content:'hello',children:[{id:'111',content:'world'}]}]},
           {id:'2',pid:'0',content:'test1'},
           {id:'3',pid:'1',content:'test2'},
           {id:'4',pid:'1',content:'test3'},
@@ -38,11 +40,23 @@ export default {
     Select() {
       console.log('input');
     },
+    changeData (index) {
+      console.log(index)
+      console.log(this.data);
+      if( this.data[index].children){
+        this.data=this.data[index].children
+      }
+      else {
+        this.data=[this.data[index]]
+      }
+
+    }
   },
   computed: {
-      data1 () {
-        return this.data.filter(d=>d.pid.includes('2'))
-  }},
+      // data1 () {
+      //   return this.data.filter(d=>d.pid.includes('2'))
+  // }
+  },
   mounted() {
 
       console.log(this.data1)

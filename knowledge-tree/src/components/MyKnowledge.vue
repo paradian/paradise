@@ -1,16 +1,19 @@
 <template>
     <div class="main">
-        <h1>this is a my-knowledge page ,just for my test</h1>
+        <h3>this is a my-knowledge page ,just for my test</h3>
       <input type="file">
-
-<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>
-      <!--<Tree-->
-        <!--class="item"-->
-        <!--v-for="(data, index) in children"-->
-        <!--:key="index"-->
-        <!--:data="data.children">-->
-      <!--</Tree>-->
-
+      <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
+        <span class="fa fa-admin"></span>
+      </div>
+      <div class="classify">
+        <span class="fa fa-angle-left"></span>
+        <span class="classes" >民事</span>
+        <span class="classes" >刑事</span>
+        <span class="classes" >执行</span>
+        <span class="classes" >行政</span>
+        <span class="fa fa-angle-right"></span>
+      </div>
+<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :level="1"></VueTree>
     </div>
 </template>
 <script>
@@ -21,6 +24,7 @@ export default {
   data() {
       return {
         treeArray:[
+          {name:'test',id:'0001',message:'father',children:[
           {
             id:1,
             message:'1',
@@ -132,10 +136,16 @@ export default {
                 message:'4-4'
               }
             ]
-          }
-        ]
+          }]}
+        ],
+        searchValue:'',
   }
 
+  },
+  methods : {
+    Select() {
+
+    }
   },
   components:{
       'Tree':Tree,
@@ -145,3 +155,8 @@ export default {
   ,
 }
 </script>
+<style scoped>
+  .main {
+    text-align: center;
+  }
+</style>

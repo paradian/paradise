@@ -1,78 +1,106 @@
 <template>
     <div class="main">
-        <h1>this is a case-file page ,just for my test</h1>
-       <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
+        <h3>this is a case-file page ,just for my test</h3>
+       <div class="search"> <input type="text" @input="Select()" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
        <span class="fa fa-admin"></span>
        </div>
-        <p class="test" @click="ChangeSwitch()">
-          <span class="fa fa-folder-open"></span>
-          Switch
-          <span class="fa fa-user"></span>
-        </p>
-        <!--<div class="joke" v-show="Switch">hello  world</div>-->
-        <p class="test" @click="Show=!Show">Switch</p>
-        <!--<div class="joke" v-show="Show">it was more a decade </div>-->
-      <div id="container">
-       <p class="first" @click="SwitchHandle">{{data.name}}</p>
-        <!--<p id="test" v-if="data.child.length!=0">{{data.child.name}}</p>-->
-        <div class="test" v-for="item in data.child" @click="ShowMore(item.grandchild,item.id)" v-show="ShowChild">
-          {{item.name}}
-        <p class="grandchild" v-for="i in grandchild" v-show="item.id==true">{{i.name}}</p>
-        </div>
-
+      <div class="classify">
+        <span class="fa fa-angle-left" @click="moveLeft"></span>
+        <span class="classes-0" @click="firstType" :class="{'active':this.selected==1}">民事</span>
+        <span class="classes-1" @click="secondType" :class="{'active':this.selected==2}">刑事</span>
+        <span class="classes-2" @click="thirdType" :class="{'active':this.selected==3}">执行</span>
+        <span class="classes-3" @click="forthType" :class="{'active':this.selected==4}">行政</span>
+        <span class="fa fa-angle-right" @click="moveRight"></span>
       </div>
+      <div id="container">
+        <First v-show="this.selected==1"></First>
+        <Second v-show="this.selected==2"></Second>
+        <Third v-show="this.selected==3"></Third>
+        <Forth v-show="this.selected==4"></Forth>
+        </div>
+      <!--<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>-->
     </div>
 </template>
 <script>
-
+import MyTree from './component-detail/MyTree'
+import  First from  './component-detail/First'
+import Second from  './component-detail/Seond'
+import Third from  './component-detail/Third'
+import Forth from  './component-detail/Forth'
 export default {
     name:'CaseFile',
     data() {
         return{
             searchValue:'',
-            Switch:false,
-            Show:false,
           ShowChild:false,
           ShowDetail:false,
-          grandchild:{},
           controller:'',
+         selected:1,
           data:{
-            name:'hello',
-            content:'father',
-            child:[{name:'leo',content:'hello world',id:'1',grandchild:[{name:'rick',content:'this is a test'},{name:'rick',content:'this is a test'}]},
-              {name:'leoric',content:'hello paradian',id:'2',grandchild:[{name:'ricky',content:'this is a test too'}]}, {name:'leory',content:'hello paradise',id:'3'}],
+              name:'test'
           }
         }
     },
-
+components:{
+      'MyTree':MyTree,
+  'First':First,
+  'Second':Second,
+  'Third':Third,
+  'Forth':Forth
+},
     methods: {
       SwitchHandle() {
         this.ShowChild=!this.ShowChild,
           this.ShowDetail=false,
           this.controller=''
       },
-        ChangeSwitch() {
-            this.Switch=!this.Switch;
-        },
+
         Select() {
             console.log('input');
         },
-      ShowMore(value,id) {
-          console.log(value);
-          this.ShowDetail=!this.ShowDetail;
-this.grandchild=value;
+      firstType() {
+this.selected=1;
+this.data={name:'test'}
       },
+      secondType() {
+        this.selected=2;
+        this.data={name:'second'}
+      },
+      thirdType() {
+        this.selected=3;
+        this.data={name:'third'}
+      },
+      forthType() {
+        this.selected=4;
+        this.data={name:'forth'}
+      },
+      moveLeft (){
+console.log('move left');
 
+this.selected=this.selected-1;
+if(this.selected==0){
+  this.selected=4;
+
+}
+      },
+      moveRight (){
+        console.log('move right');
+
+        this.selected=this.selected+1;
+        if(this.selected==5){
+          this.selected=1;
+        }
+      }
     },
     computed: {
-        newarr(){
-            var testarr= this.tests.filter(test=>test.name.includes(this.searchValue));
-          console.log(typeof(testarr[1].content))
-            console.log(typeof(testarr[1].content)==="string")
-          console.log(testarr[1].content)
-
-            return testarr;
-        }
+        // newarr(){
+        //     var testarr= this.tests.filter(test=>test.name.includes(this.searchValue));
+        //   console.log(typeof(testarr[1].content))
+        //     console.log(typeof(testarr[1].content)==="string")
+        //   console.log(testarr[1].content)
+        //
+        //     return testarr;
+        // }
     },
   mounted(){
       console.log(this.data);
@@ -84,5 +112,8 @@ this.grandchild=value;
 <style scoped>
   span {
     font-size: 20px;
+  }
+  .active {
+    background-color: #8789fa;
   }
 </style>

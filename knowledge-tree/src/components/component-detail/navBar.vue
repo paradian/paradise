@@ -16,7 +16,7 @@
   .header {
     display: flex;
     justify-content: space-around;
-    background-color: #89aff8;
+    background:linear-gradient(to right, #3eb3f0, #82dbfc);
     margin: auto;
   }
 span {

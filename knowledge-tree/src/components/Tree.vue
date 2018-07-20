@@ -58,7 +58,7 @@ span {
     font-size: 1rem;
 }
 .active {
-    background-color: #89af89;
-    color: #fff
+    /*background-color: #89af89;*/
+    color: #3eb3f0
 }
 </style>
