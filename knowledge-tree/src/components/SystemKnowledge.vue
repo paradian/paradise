@@ -5,17 +5,31 @@
         <span class="fa fa-admin"></span>
       </div>
 <!--<div class="test" v-for="item in data1">{{item.content}}</div>-->
+      <div class="lastFolder" @click="backLast">...</div>
       <div class="hello" v-for="(item,index) in data" >
         <p class="title">
-         <span class="fa fa-folder"></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="Editor=!Editor"></span>
+         <span class="fa fa-folder"></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
         </p>
       </div>
+      <div class="editor" v-if="EditorSwitch" >
+        <ul class="list">
+          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
+          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
+          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
+          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
+          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
+        </ul>
+      </div>
+<!--<Dialog-bar v-model="sendVal" type="danger" title="请输入文件名" content="" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="删除"></Dialog-bar>-->
+      <Dialogue-bar v-model="sendVal" type="talkCase" class="Dialogue" ></Dialogue-bar>
       <div class="first" @click="second=!second,third=false">第一级目录</div>
       <div class="second" v-show="second" @click="third=!third">第二级目录</div>
       <div class="third" v-show="third">第三级目录</div>
     </div>
 </template>
 <script>
+  import Dialog from './component-detail/Dialog'
+  import Dialogue from  './component-detail/Dialogue'
 export default {
     name:'SystemKnowledge',
   data () {
@@ -23,7 +37,14 @@ export default {
         searchValue:'',
         second:false,
         third:false,
-        Editor:false,
+        EditorSwitch:false,
+        sendVal:false,
+        one:[],
+        two:[],
+        three:[],
+        four:[],
+        Grade:0,
+        appearPosition:'',
         data:[
           {id:'1',pid:'0',content:'test0',children:[{id:11,content:'hello',children:[{id:'111',content:'world'}]}]},
           {id:'2',pid:'0',content:'test1'},
@@ -35,7 +56,10 @@ export default {
 
       }
   },
-
+    components:{
+      'Dialog-bar':Dialog,
+      'Dialogue-bar':Dialogue
+    },
   methods: {
     Select() {
       console.log('input');
@@ -44,22 +68,99 @@ export default {
       console.log(index)
       console.log(this.data);
       if( this.data[index].children){
-        this.data=this.data[index].children
+       switch (this.Grade) {
+         case 0:
+           this.one=this.data;
+           console.log(this.one, 'hello', this.Grade);
+
+           break;
+         case 1:
+           this.two=this.data;
+           console.log(this.two);
+           console.log(this.Grade)
+           break;
+         case 2:
+           this.three=this.data;
+           console.log(this.three);
+           console.log(this.Grade)
+           break;
+         case 3:
+           this.four=this.data;
+           console.log(this.four);
+           console.log(this.Grade)
+           break;
+         default:
+           console.log(this.Grade)
+       }
+        this.data=this.data[index].children;
+        this.Grade=this.Grade+1;
+console.log(this.Grade)
       }
       else {
         this.data=[this.data[index]]
       }
+    },
+    openMask(){
+      this.sendVal = true;
+      console.log(event.target.offsetTop)
+      this.appearPosition=event.target.offsetTop;
 
+    },
+    clickCancel(){
+      console.log('点击了取消');
+    },
+    clickDanger(){
+      console.log('这里是danger回调')
+    },
+    clickConfirm(){
+      console.log('点击了confirm');
+    },
+    Editor () {
+      console.log(event.target.offsetTop)
+      this.EditorSwitch=!this.EditorSwitch;
+
+    },
+    newFolder () {
+
+    },
+    backLast (){
+      console.log('entry')
+      console.log(this.Grade)
+      console.log(this.data)
+      switch (this.Grade) {
+        case 2:
+          this.data=this.three;
+          break;
+        case 1:
+          this.data=this.two;
+          break;
+        case 0:
+          this.data=this.one;
+          console.log(this.one);
+          break;
+        default:
+          this.data=this.one;
+          break;
+      }
     }
   },
   computed: {
       // data1 () {
       //   return this.data.filter(d=>d.pid.includes('2'))
   // }
+  //   changePosition (){
+  //     return {
+  //     background:'#87afde',
+  //       top:this.appearPosition
+  //     }
+  //   }
   },
   mounted() {
-
+this.one=this.data;
       console.log(this.data1)
   }
 }
 </script>
+<style scoped>
+
+</style>
