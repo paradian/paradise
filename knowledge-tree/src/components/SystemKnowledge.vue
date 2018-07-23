@@ -8,9 +8,14 @@
       <div class="lastFolder" @click="backLast">...</div>
       <div class="hello" v-for="(item,index) in data" >
         <p class="title">
-         <span class="fa fa-folder"></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
+         <span class="fa fa-folder"><Pop-over @click.native="createFolder(item)" :ref="item"></Pop-over></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
         </p>
       </div>
+      <popover content="popover bottom!" placement="bottom" trigger="hover">
+        <button class="button fa fa-folder" >bottom</button>
+      </popover>
+<Pop-over></Pop-over>
+
       <div class="editor" v-if="EditorSwitch" >
         <ul class="list">
           <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
@@ -30,6 +35,7 @@
 <script>
   import Dialog from './component-detail/Dialog'
   import Dialogue from  './component-detail/Dialogue'
+  import  Popover from  './component-detail/Popover'
 export default {
     name:'SystemKnowledge',
   data () {
@@ -58,11 +64,14 @@ export default {
   },
     components:{
       'Dialog-bar':Dialog,
-      'Dialogue-bar':Dialogue
+      'Dialogue-bar':Dialogue,
+      'Pop-over':Popover
     },
   methods: {
     Select() {
       console.log('input');
+      console.log(this.$refs);
+      // this.$refs.Popover.createFolder1();
     },
     changeData (index) {
       console.log(index)
@@ -72,7 +81,6 @@ export default {
          case 0:
            this.one=this.data;
            console.log(this.one, 'hello', this.Grade);
-
            break;
          case 1:
            this.two=this.data;
@@ -118,7 +126,6 @@ console.log(this.Grade)
     Editor () {
       console.log(event.target.offsetTop)
       this.EditorSwitch=!this.EditorSwitch;
-
     },
     newFolder () {
 
@@ -142,6 +149,24 @@ console.log(this.Grade)
           this.data=this.one;
           break;
       }
+    },
+    createFolder (item) {
+      console.log(item);
+      console.log(this.data);
+      // console.log(this.data[index].children);
+      if(item.children){
+        console.log('entry the function')
+        // console.log(this.data[index].children)
+        item.children.push([{content:'test folder'}])
+        // var testarr=this.data[index].children
+        // var test={content:'test folder'}
+        // testarr.push(test)
+        console.log(this.data);
+      }
+      else {
+        // this.data[index]
+      }
+
     }
   },
   computed: {
@@ -158,6 +183,12 @@ console.log(this.Grade)
   mounted() {
 this.one=this.data;
       console.log(this.data1)
+  },
+  updated (){
+      console.log('dose this work')
+      if(this.$store.state.createFolder==1) {
+        console.log('get it')
+      }
   }
 }
 </script>

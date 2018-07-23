@@ -3,12 +3,24 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+
+// import VueBlu from 'vue-blu'
+// import 'vue-blu/dist/css/vue-blu.min.css'
+// Vue.use(VueBlu);引入Blu
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
+
 Vue.config.productionTip = false
 import 'font-awesome/css/font-awesome.min.css'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  render: h => h(App),
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

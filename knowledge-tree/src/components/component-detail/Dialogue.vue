@@ -1,6 +1,6 @@
 <template>
   <div class="dialog" v-show="showMask">
-    <div class="dialog-container" :style="{top:appearPosition+'px'}">
+    <div class="dialog-container" style="top:256px">
 <ul class="list" v-if="type =='editorFolder'">
   <li class="item"><span class="name">leo</span><span class="fa fa-qq"></span> <span class="fa fa-wechat"></span></li>
   <li class="item"><span class="name">leo</span><span class="fa fa-qq"></span> <span class="fa fa-wechat"></span></li>
@@ -79,7 +79,13 @@ appearPosition:{
       }
     },
     computed:{
-
+changePosition (){
+  console.log('entry')
+var a={};
+  a.top=this.appearPosition();
+  a.background='#87af89';
+return a
+}
     }
   }
 </script>
