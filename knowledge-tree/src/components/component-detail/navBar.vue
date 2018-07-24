@@ -17,11 +17,12 @@
     display: flex;
     justify-content: space-around;
     background:linear-gradient(to right, #3eb3f0, #82dbfc);
-    margin: auto;
+
   }
 span {
   width: 100px;
   height: 60px;
   font-size: 20px;
+  display: block;
 }
 </style>

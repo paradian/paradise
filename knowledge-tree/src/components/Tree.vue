@@ -51,6 +51,10 @@ export default {
 }
 </script>
 <style scoped>
+  .tabbar  {
+    display: flex;
+    justify-content: space-around;
+  }
 span {
     width: 90px;
     height: 30px;

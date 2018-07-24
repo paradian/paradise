@@ -1,6 +1,5 @@
 <template>
     <div class="main">
-        <h3>this is a case-file page ,just for my test</h3>
        <div class="search"> <input type="text" @input="Select()" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
        <span class="fa fa-admin"></span>
        </div>

@@ -79,13 +79,13 @@ appearPosition:{
       }
     },
     computed:{
-changePosition (){
-  console.log('entry')
-var a={};
-  a.top=this.appearPosition();
-  a.background='#87af89';
-return a
-}
+// changePosition (){
+//   console.log('entry')
+// var a={};
+//   a.top=this.appearPosition();
+//   a.background='#87af89';
+// return a
+// }
     }
   }
 </script>

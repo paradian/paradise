@@ -8,12 +8,9 @@
       <div class="lastFolder" @click="backLast">...</div>
       <div class="hello" v-for="(item,index) in data" >
         <p class="title">
-         <span class="fa fa-folder"><Pop-over @click.native="createFolder(item)" :ref="item"></Pop-over></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
+         <span class="fa fa-folder"><Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="editor"></Pop-over></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
         </p>
       </div>
-      <popover content="popover bottom!" placement="bottom" trigger="hover">
-        <button class="button fa fa-folder" >bottom</button>
-      </popover>
 <Pop-over></Pop-over>
 
       <div class="editor" v-if="EditorSwitch" >
@@ -167,6 +164,9 @@ console.log(this.Grade)
         // this.data[index]
       }
 
+    },
+    createFolder1(e){
+      console.log('method',e)
     }
   },
   computed: {
@@ -181,12 +181,13 @@ console.log(this.Grade)
   //   }
   },
   mounted() {
-this.one=this.data;
-      console.log(this.data1)
+    this.$refs.addFolder.$on('addFolder',e=>{
+      console.log('$on',e)
+    })
   },
   updated (){
       console.log('dose this work')
-      if(this.$store.state.createFolder==1) {
+      if(this.$store.state.createFolder==1){
         console.log('get it')
       }
   }
