@@ -12,20 +12,21 @@
       <span class="fa fa-angle-right" @click="moveRight"></span>
     </div>
     <div id="container">
-      <First v-show="this.selected==1"></First>
-      <Second v-show="this.selected==2"></Second>
-      <Third v-show="this.selected==3"></Third>
-      <Forth v-show="this.selected==4"></Forth>
+      <div class="hello" v-for="(item,index) in data" >
+        <p class="title">
+          <span class="fa fa-folder-o" v-if="item.hasChildren"></span>
+          <span class="fa fa-file" v-if="!item.hasChildren"></span><span @click="changeData(item)"> {{item.content}}</span>
+        </p>
+        <p class="icon"><Pop-over type="editor"></Pop-over></p>
+      </div>
     </div>
-    <VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>
+    <Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="editor"></Pop-over>
+    <!--<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>-->
   </div>
 </template>
 <script>
   import MyTree from './component-detail/MyTree'
-  import  First from  './component-detail/First'
-  import Second from  './component-detail/Seond'
-  import Third from  './component-detail/Third'
-  import Forth from  './component-detail/Forth'
+ import Popover from  './component-detail/Popover'
   export default {
     name:'CaseFile',
     data() {
@@ -35,17 +36,19 @@
         ShowDetail:false,
         controller:'',
         selected:1,
-        data:{
-          name:'test'
-        }
+        data:[
+          {id:'1',hasChildren:true,content:'人格权纠纷',children:[{id:11,content:'hello',children:[{id:'111',content:'world'}]}]},
+          {id:'2',hasChildren:false,content:'婚姻家庭纠纷'},
+          {id:'3',hasChildren:true,content:'物权纠纷'},
+          {id:'4',hasChildren:false,content:'合同不当得利纠纷'},
+          {id:'5',hasChildren:true,content:'知识产权与竞争纠纷'},
+          {id:'6',hasChildren:true,content:'劳动争议人事争议'},
+        ],
       }
     },
     components:{
       'MyTree':MyTree,
-      'First':First,
-      'Second':Second,
-      'Third':Third,
-      'Forth':Forth
+     'Pop-over':Popover
     },
     methods: {
       SwitchHandle() {
@@ -59,19 +62,18 @@
       },
       firstType() {
         this.selected=1;
-        this.data={name:'test'}
+
       },
       secondType() {
         this.selected=2;
-        this.data={name:'second'}
+
       },
       thirdType() {
         this.selected=3;
-        this.data={name:'third'}
+
       },
       forthType() {
         this.selected=4;
-        this.data={name:'forth'}
       },
       moveLeft (){
         console.log('move left');
@@ -88,6 +90,11 @@
         this.selected=this.selected+1;
         if(this.selected==5){
           this.selected=1;
+        }
+      },
+      changeData(item){
+        if(item.children){
+          this.data=item.children
         }
       }
     },

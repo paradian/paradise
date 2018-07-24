@@ -1,14 +1,33 @@
 <template>
     <div class="main">
         <h3>this is a system-knowledge page ,just for my test</h3>
-      <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="&#xF002; 输入案件信息"><button class="fa fa-search"></button>
-        <span class="fa fa-admin"></span>
+      <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="&#xF002; 输入案件信息"><select name="" id=""  v-model="showType" @click="selectType">
+        <option value="0">默认</option>
+        <option value="1">倒序</option>
+      </select><button class="fa fa-search"></button>
+        <!--<el-row class="block-col-2">-->
+          <!--<el-col :span="12">-->
+            <!--<el-dropdown trigger="click">-->
+      <!--<span class="el-dropdown-link">-->
+        <!--默认<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+      <!--</span>-->
+              <!--<el-dropdown-menu slot="dropdown">-->
+                <!--<el-dropdown-item>黄金糕</el-dropdown-item>-->
+                <!--<el-dropdown-item>狮子头</el-dropdown-item>-->
+                <!--<el-dropdown-item>螺蛳粉</el-dropdown-item>-->
+                <!--<el-dropdown-item>双皮奶</el-dropdown-item>-->
+                <!--<el-dropdown-item>蚵仔煎</el-dropdown-item>-->
+              <!--</el-dropdown-menu>-->
+            <!--</el-dropdown>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+
       </div>
 <!--<div class="test" v-for="item in data1">{{item.content}}</div>-->
       <div class="lastFolder" @click="backLast">...</div>
       <div class="hello" v-for="(item,index) in data" >
         <p class="title">
-         <span class="fa fa-folder"><Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="chat"></Pop-over></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit"></span>
+         <span class="fa fa-folder-o"></span> <span @click="changeData(index)"> {{item.content}}</span><Pop-over type="chat"></Pop-over>
         </p>
       </div>
 <Pop-over></Pop-over>
@@ -42,6 +61,7 @@ export default {
         third:false,
         EditorSwitch:false,
         sendVal:false,
+        showType:0,
         one:[],
         two:[],
         three:[],
@@ -69,6 +89,9 @@ export default {
       console.log('input');
       console.log(this.$refs);
       // this.$refs.Popover.createFolder1();
+    },
+    selectType(){
+      console.log(this.showType)
     },
     changeData (index) {
       console.log(index)

@@ -17,7 +17,7 @@
         <Third v-show="this.selected==3"></Third>
         <Forth v-show="this.selected==4"></Forth>
         </div>
-      <VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>
+      <!--<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>-->
     </div>
 </template>
 <script>

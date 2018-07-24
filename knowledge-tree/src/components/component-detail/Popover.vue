@@ -8,7 +8,7 @@
 <span class="fa fa-folder"></span>
 新建文件夹
 </p>
-      <p class="item"><span class="fa fa-file"></span></p>
+      <p class="item"><span class="fa fa-edit"></span></p>
     </div>
     <div style="text-align: right; margin: 0" v-if="type=='chat'">
       <p class="item" @click="createFolder1">
@@ -17,7 +17,7 @@
       </p>
       <p class="item"><span class="fa fa-file"></span></p>
     </div>
-    <el-button slot="reference" style="border: none" @click="test"><span class="fa fa-folder"></span></el-button>
+    <el-button slot="reference" style="border: none" @click="test"><span class="fa fa-edit" v-if="type=='editor'"></span><span class="fa fa-user" v-if="type=='chat'"></span></el-button>
   </el-popover>
 </template>
 
