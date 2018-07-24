@@ -1,198 +1,132 @@
 <template>
     <div class="main">
-        <h3>this is a system-knowledge page ,just for my test</h3>
-      <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
-        <span class="fa fa-admin"></span>
+       <div class="search"> <input type="text" @input="Select()" v-model="searchValue" placeholder="&#xf002; 输入案件信息"><button class="fa fa-search"></button>
+       <span class="fa fa-admin"></span>
+       </div>
+      <div class="classify">
+        <span class="fa fa-angle-left" @click="moveLeft"></span>
+        <span class="classes-0" @click="firstType" :class="{'active':this.selected==1}">民事</span>
+        <span class="classes-1" @click="secondType" :class="{'active':this.selected==2}">刑事</span>
+        <span class="classes-2" @click="thirdType" :class="{'active':this.selected==3}">执行</span>
+        <span class="classes-3" @click="forthType" :class="{'active':this.selected==4}">行政</span>
+        <span class="fa fa-angle-right" @click="moveRight"></span>
       </div>
-<!--<div class="test" v-for="item in data1">{{item.content}}</div>-->
-      <div class="lastFolder" @click="backLast">...</div>
-      <div class="hello" v-for="(item,index) in data" >
-        <p class="title">
-         <span class="fa fa-folder"><Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="editor"></Pop-over></span> <span @click="changeData(index)"> {{item.content}}</span><span class="fa fa-edit" @click="openMask"></span>
-        </p>
-      </div>
-<Pop-over></Pop-over>
-
-      <div class="editor" v-if="EditorSwitch" >
-        <ul class="list">
-          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
-          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
-          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
-          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
-          <li class="item"><span class="fa fa-folder"></span><span @click="newFolder">新建文件夹</span></li>
-        </ul>
-      </div>
-<!--<Dialog-bar v-model="sendVal" type="danger" title="请输入文件名" content="" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="删除"></Dialog-bar>-->
-      <Dialogue-bar v-model="sendVal" type="talkCase" class="Dialogue" ></Dialogue-bar>
-      <div class="first" @click="second=!second,third=false">第一级目录</div>
-      <div class="second" v-show="second" @click="third=!third">第二级目录</div>
-      <div class="third" v-show="third">第三级目录</div>
+      <div id="container">
+        <First v-show="this.selected==1"></First>
+        <Second v-show="this.selected==2"></Second>
+        <Third v-show="this.selected==3"></Third>
+        <Forth v-show="this.selected==4"></Forth>
+        </div>
+      <VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>
     </div>
 </template>
 <script>
-  import Dialog from './component-detail/Dialog'
-  import Dialogue from  './component-detail/Dialogue'
-  import  Popover from  './component-detail/Popover'
+import MyTree from './component-detail/MyTree'
+import  First from  './component-detail/First'
+import Second from  './component-detail/Seond'
+import Third from  './component-detail/Third'
+import Forth from  './component-detail/Forth'
 export default {
-    name:'SystemKnowledge',
-  data () {
-      return {
-        searchValue:'',
-        second:false,
-        third:false,
-        EditorSwitch:false,
-        sendVal:false,
-        one:[],
-        two:[],
-        three:[],
-        four:[],
-        Grade:0,
-        appearPosition:'',
-        data:[
-          {id:'1',pid:'0',content:'test0',children:[{id:11,content:'hello',children:[{id:'111',content:'world'}]}]},
-          {id:'2',pid:'0',content:'test1'},
-          {id:'3',pid:'1',content:'test2'},
-          {id:'4',pid:'1',content:'test3'},
-          {id:'5',pid:'2',content:'test4'},
-          {id:'6',pid:'2',content:'test5'},
-        ],
+    name:'CaseFile',
+    data() {
+        return{
+            searchValue:'',
+          ShowChild:false,
+          ShowDetail:false,
+          controller:'',
+         selected:1,
+          data:{
+              name:'test'
+          }
+        }
+    },
+components:{
+      'MyTree':MyTree,
+  'First':First,
+  'Second':Second,
+  'Third':Third,
+  'Forth':Forth
+},
+    methods: {
+      SwitchHandle() {
+        this.ShowChild=!this.ShowChild,
+          this.ShowDetail=false,
+          this.controller=''
+      },
 
+        Select() {
+            console.log('input');
+        },
+      firstType() {
+this.selected=1;
+this.data={name:'test'}
+      },
+      secondType() {
+        this.selected=2;
+        this.data={name:'second'}
+      },
+      thirdType() {
+        this.selected=3;
+        this.data={name:'third'}
+      },
+      forthType() {
+        this.selected=4;
+        this.data={name:'forth'}
+      },
+      moveLeft (){
+console.log('move left');
+
+this.selected=this.selected-1;
+if(this.selected==0){
+  this.selected=4;
+
+}
+      },
+      moveRight (){
+        console.log('move right');
+
+        this.selected=this.selected+1;
+        if(this.selected==5){
+          this.selected=1;
+        }
       }
-  },
-    components:{
-      'Dialog-bar':Dialog,
-      'Dialogue-bar':Dialogue,
-      'Pop-over':Popover
     },
-  methods: {
-    Select() {
-      console.log('input');
-      console.log(this.$refs);
-      // this.$refs.Popover.createFolder1();
+    computed: {
+        // newarr(){
+        //     var testarr= this.tests.filter(test=>test.name.includes(this.searchValue));
+        //   console.log(typeof(testarr[1].content))
+        //     console.log(typeof(testarr[1].content)==="string")
+        //   console.log(testarr[1].content)
+        //
+        //     return testarr;
+        // }
     },
-    changeData (index) {
-      console.log(index)
+  mounted(){
       console.log(this.data);
-      if( this.data[index].children){
-       switch (this.Grade) {
-         case 0:
-           this.one=this.data;
-           console.log(this.one, 'hello', this.Grade);
-           break;
-         case 1:
-           this.two=this.data;
-           console.log(this.two);
-           console.log(this.Grade)
-           break;
-         case 2:
-           this.three=this.data;
-           console.log(this.three);
-           console.log(this.Grade)
-           break;
-         case 3:
-           this.four=this.data;
-           console.log(this.four);
-           console.log(this.Grade)
-           break;
-         default:
-           console.log(this.Grade)
-       }
-        this.data=this.data[index].children;
-        this.Grade=this.Grade+1;
-console.log(this.Grade)
-      }
-      else {
-        this.data=[this.data[index]]
-      }
-    },
-    openMask(){
-      this.sendVal = true;
-      console.log(event.target.offsetTop)
-      this.appearPosition=event.target.offsetTop;
-
-    },
-    clickCancel(){
-      console.log('点击了取消');
-    },
-    clickDanger(){
-      console.log('这里是danger回调')
-    },
-    clickConfirm(){
-      console.log('点击了confirm');
-    },
-    Editor () {
-      console.log(event.target.offsetTop)
-      this.EditorSwitch=!this.EditorSwitch;
-    },
-    newFolder () {
-
-    },
-    backLast (){
-      console.log('entry')
-      console.log(this.Grade)
-      console.log(this.data)
-      switch (this.Grade) {
-        case 2:
-          this.data=this.three;
-          break;
-        case 1:
-          this.data=this.two;
-          break;
-        case 0:
-          this.data=this.one;
-          console.log(this.one);
-          break;
-        default:
-          this.data=this.one;
-          break;
-      }
-    },
-    createFolder (item) {
-      console.log(item);
-      console.log(this.data);
-      // console.log(this.data[index].children);
-      if(item.children){
-        console.log('entry the function')
-        // console.log(this.data[index].children)
-        item.children.push([{content:'test folder'}])
-        // var testarr=this.data[index].children
-        // var test={content:'test folder'}
-        // testarr.push(test)
-        console.log(this.data);
-      }
-      else {
-        // this.data[index]
-      }
-
-    },
-    createFolder1(e){
-      console.log('method',e)
-    }
+      this.grandchild=this.data.child;
+      console.log(this.grandchild);
   },
-  computed: {
-      // data1 () {
-      //   return this.data.filter(d=>d.pid.includes('2'))
-  // }
-  //   changePosition (){
-  //     return {
-  //     background:'#87afde',
-  //       top:this.appearPosition
-  //     }
-  //   }
-  },
-  mounted() {
-    this.$refs.addFolder.$on('addFolder',e=>{
-      console.log('$on',e)
-    })
-  },
-  updated (){
-      console.log('dose this work')
-      if(this.$store.state.createFolder==1){
-        console.log('get it')
-      }
-  }
 }
 </script>
 <style scoped>
-
+  span {
+    font-size: 15px;
+    display: inline-block;
+  }
+  .active {
+    color: #1488ff;
+  }
+  button.fa{
+    position: absolute;
+    left: 130px;
+  }
+  .classify {
+    display: flex;
+    border: 1px solid #1488ff;
+    border-radius: 5px;
+    margin: 5px;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+  }
 </style>

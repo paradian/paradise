@@ -1,162 +1,132 @@
 <template>
-    <div class="main">
-        <h3>this is a my-knowledge page ,just for my test</h3>
-      <input type="file">
-      <div class="search"> <input type="text" @input="Select" v-model="searchValue" placeholder="输入案件信息"><button class="fa fa-search"></button>
-        <span class="fa fa-admin"></span>
-      </div>
-      <div class="classify">
-        <span class="fa fa-angle-left"></span>
-        <span class="classes" >民事</span>
-        <span class="classes" >刑事</span>
-        <span class="classes" >执行</span>
-        <span class="classes" >行政</span>
-        <span class="fa fa-angle-right"></span>
-      </div>
-<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :level="1"></VueTree>
+  <div class="main">
+    <div class="search"> <input type="text" @input="Select()" v-model="searchValue" placeholder="&#xf002; 输入案件信息"><button class="fa fa-search"></button>
+      <span class="fa fa-admin"></span>
     </div>
+    <div class="classify">
+      <span class="fa fa-angle-left" @click="moveLeft"></span>
+      <span class="classes-0" @click="firstType" :class="{'active':this.selected==1}">民事</span>
+      <span class="classes-1" @click="secondType" :class="{'active':this.selected==2}">刑事</span>
+      <span class="classes-2" @click="thirdType" :class="{'active':this.selected==3}">执行</span>
+      <span class="classes-3" @click="forthType" :class="{'active':this.selected==4}">行政</span>
+      <span class="fa fa-angle-right" @click="moveRight"></span>
+    </div>
+    <div id="container">
+      <First v-show="this.selected==1"></First>
+      <Second v-show="this.selected==2"></Second>
+      <Third v-show="this.selected==3"></Third>
+      <Forth v-show="this.selected==4"></Forth>
+    </div>
+    <VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>
+  </div>
 </template>
 <script>
-  import Tree from './component-detail/Tree'
-  import  VueTree from  './component-detail/MyTree'
-export default {
-    name:'MyKnowledge',
-  data() {
-      return {
-        treeArray:[
-          {name:'test',id:'0001',message:'father',children:[
-          {
-            id:1,
-            message:'1',
-            children:[
-              {
-                id:11,
-                message:'1-1',
-                children:[
-                  {
-                    id:111,
-                    message:'1-1-1'
-                  }
-                ]
-              },
-              {
-                id:12,
-                message:'1-2',
-                children:[
-                  {
-                    id:121,
-                    message:'1-2-1'
-                  },
-                  {
-                    id:122,
-                    message:'1-2-2',
-                    children:[
-                      {
-                        id:1221,
-                        message:'1-2-2-1'
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                id:13,
-                message:'1-3'
-              }
-            ]
-          },
-          {
-            id:2,
-            message:'2',
-            children:[
-              {
-                id:21,
-                message:'2-1'
-              },
-              {
-                id:22,
-                message:'2-2',
-                children:[
-                  {
-                    id:221,
-                    message:'2-2-1'
-                  },
-                ]
-              },
-              {
-                id:23,
-                message:'2-2'
-              },
-              {
-                id:24,
-                message:'2-3'
-              },
-            ]
-          },
-          {
-            id:3,
-            message:'3',
-            children:[
-              {
-                id:31,
-                message:'3-1'
-              },
-              {
-                id:32,
-                message:'3-2'
-              },
-              {
-                id:33,
-                message:'3-3'
-              },
-              {
-                id:34,
-                message:'3-4'
-              }
-            ]
-          },
-          {
-            id:4,
-            message:'4',
-            children:[
-              {
-                id:41,
-                message:'4-1'
-              },
-              {
-                id:42,
-                message:'4-2'
-              },
-              {
-                id:43,
-                message:'4-3'
-              },
-              {
-                id:44,
-                message:'4-4'
-              }
-            ]
-          }]}
-        ],
+  import MyTree from './component-detail/MyTree'
+  import  First from  './component-detail/First'
+  import Second from  './component-detail/Seond'
+  import Third from  './component-detail/Third'
+  import Forth from  './component-detail/Forth'
+  export default {
+    name:'CaseFile',
+    data() {
+      return{
         searchValue:'',
+        ShowChild:false,
+        ShowDetail:false,
+        controller:'',
+        selected:1,
+        data:{
+          name:'test'
+        }
+      }
+    },
+    components:{
+      'MyTree':MyTree,
+      'First':First,
+      'Second':Second,
+      'Third':Third,
+      'Forth':Forth
+    },
+    methods: {
+      SwitchHandle() {
+        this.ShowChild=!this.ShowChild,
+          this.ShowDetail=false,
+          this.controller=''
+      },
+
+      Select() {
+        console.log('input');
+      },
+      firstType() {
+        this.selected=1;
+        this.data={name:'test'}
+      },
+      secondType() {
+        this.selected=2;
+        this.data={name:'second'}
+      },
+      thirdType() {
+        this.selected=3;
+        this.data={name:'third'}
+      },
+      forthType() {
+        this.selected=4;
+        this.data={name:'forth'}
+      },
+      moveLeft (){
+        console.log('move left');
+
+        this.selected=this.selected-1;
+        if(this.selected==0){
+          this.selected=4;
+
+        }
+      },
+      moveRight (){
+        console.log('move right');
+
+        this.selected=this.selected+1;
+        if(this.selected==5){
+          this.selected=1;
+        }
+      }
+    },
+    computed: {
+      // newarr(){
+      //     var testarr= this.tests.filter(test=>test.name.includes(this.searchValue));
+      //   console.log(typeof(testarr[1].content))
+      //     console.log(typeof(testarr[1].content)==="string")
+      //   console.log(testarr[1].content)
+      //
+      //     return testarr;
+      // }
+    },
+    mounted(){
+      console.log(this.data);
+      this.grandchild=this.data.child;
+      console.log(this.grandchild);
+    },
   }
-
-  },
-  methods : {
-    Select() {
-
-    }
-  },
-  components:{
-      'Tree':Tree,
-    'VueTree':VueTree
-  }
-
-  ,
-}
 </script>
 <style scoped>
-  .main {
-    text-align: center;
+  span {
+    font-size: 15px;
+    display: inline-block;
+  }
+  .active {
+    color: #1488ff;
+  }
+  button.fa{
+    position: absolute;
+    left: 130px;
+  }
+  .classify {
+    display: flex;
+    border: 1px solid #1488ff;
+    border-radius: 5px;
+    margin: 5px;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
   }
 </style>

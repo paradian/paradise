@@ -13,9 +13,9 @@
     </div>
 </template>
 <script>
-import CaseFile from './CaseFile';
-import MyKnowledge from './MyKnowledge';
 import SystemKnowledge from './SystemKnowledge';
+import MyKnowledge from './MyKnowledge';
+import CaseFile from './CaseFile';
 import NavBar from './component-detail/navBar'
 
 export default {

@@ -3,11 +3,18 @@
     placement="bottom"
     width="160"
     v-model="visible2">
-    <div style="text-align: right; margin: 0">
+    <div style="text-align: right; margin: 0" v-if="type=='editor'">
 <p class="item" @click="createFolder1">
 <span class="fa fa-folder"></span>
 新建文件夹
 </p>
+      <p class="item"><span class="fa fa-file"></span></p>
+    </div>
+    <div style="text-align: right; margin: 0" v-if="type=='chat'">
+      <p class="item" @click="createFolder1">
+        <span class="fa fa-folder"></span>
+        hellp
+      </p>
       <p class="item"><span class="fa fa-file"></span></p>
     </div>
     <el-button slot="reference" style="border: none" @click="test"><span class="fa fa-folder"></span></el-button>
