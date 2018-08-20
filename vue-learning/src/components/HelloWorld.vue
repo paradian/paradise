@@ -11,6 +11,7 @@
     </ul>
     <router-view></router-view>
     <Carousel></Carousel>
+    <Confirm></Confirm>
   </div>
 </template>
 
@@ -21,6 +22,9 @@
   import Forth from  '@/components/Testcomponents/Forth'
   import Navbar from '@/components/Navbar'
   import Carousel from '@/components/Carousel'
+  import Confirm from '@/components/component'
+import Mock from 'mockjs'
+  import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components:{
@@ -29,7 +33,8 @@ export default {
     'Third':Third,
     'Forth':Forth,
     'Navbar':Navbar,
-    'Carousel':Carousel
+    'Carousel':Carousel,
+    'Confirm':Confirm
   },
   data () {
     return {
@@ -40,6 +45,17 @@ export default {
 
   }
 
+  },
+  mounted () {
+    Mock.mock('http://paradian.cn', {
+      'name'     : '@name',
+      'age|1-100': 100,
+      'color'    : '@color'
+    });
+axios.get('http://paradian.cn')
+  .then(res=>{
+    console.log(res)
+  })
   }
 }
 </script>

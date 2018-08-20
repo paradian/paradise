@@ -12,15 +12,15 @@
       <span class="fa fa-angle-right" @click="moveRight"></span>
     </div>
     <div id="container">
-      <div class="hello" v-for="(item,index) in data" >
+      <div class="cell" v-for="(item,index) in data" >
         <p class="title">
           <span class="fa fa-folder-o" v-if="item.hasChildren"></span>
           <span class="fa fa-file" v-if="!item.hasChildren"></span><span @click="changeData(item)"> {{item.content}}</span>
         </p>
-        <p class="icon"><Pop-over type="editor"></Pop-over></p>
+        <p class="icon"><Pop-over type="editor" @click.native="confirmFolder(item)"></Pop-over></p>
       </div>
     </div>
-    <Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="editor"></Pop-over>
+    <!--<Pop-over @addFolder="createFolder1" @click.native="createFolder(item)" :ref="item" type="editor"></Pop-over>-->
     <!--<VueTree v-for="(item,index) in treeArray" :key="index" :userid="item.id" :message="item.message" :children="item.children" :ceng="1"></VueTree>-->
   </div>
 </template>
@@ -51,6 +51,9 @@
      'Pop-over':Popover
     },
     methods: {
+      confirmFolder (e){
+        this.$store.commit('confirmFolder',e)
+      },
       SwitchHandle() {
         this.ShowChild=!this.ShowChild,
           this.ShowDetail=false,
@@ -96,7 +99,8 @@
         if(item.children){
           this.data=item.children
         }
-      }
+      },
+
     },
     computed: {
       // newarr(){
@@ -109,9 +113,9 @@
       // }
     },
     mounted(){
-      console.log(this.data);
-      this.grandchild=this.data.child;
-      console.log(this.grandchild);
+     this.$refs.addFolder.$on('addFolder',e => {
+       console.log(e)
+     })
     },
   }
 </script>
@@ -135,5 +139,20 @@
     justify-content: space-around;
     align-items: center;
     padding: 5px;
+  }
+  p {
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+  }
+  .icon {
+    float: right;
+  }
+  .cell{
+    padding: 5px;
+    font-size: 30px;
+    border-bottom: solid 1px #eeeeee;
+    margin: 20px;
+
   }
 </style>

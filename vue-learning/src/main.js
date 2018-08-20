@@ -7,6 +7,7 @@ import VueI18n from 'vue-i18n'
 import messages from './language/index'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import Mock from 'mockjs'
 Vue.use(VueAwesomeSwiper)
 
 Vue.use(VueI18n)

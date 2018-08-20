@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex)
+Vue.use(Vuex);
 export default new Vuex.Store({
   state:{
-    createFolder:0,
-    createFile:0,
+    folder:'',
+    index:'',
+    createFolder:'',
+    createFile:'',
+    rename:'',
+    folderName:''
 
   },
   mutations:{
-    addFolder (){
-      this.state.createFolder=1;
+    addFolder (state,data){
+      state.folderName=data;
+      console.log(state.folderName);
+    },
+    confirmFolder (state,data){
+    state.folder=data;
+    console.log(state.folder);
     }
+  },
+  actions:{
+
   }
 })
